@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "GameShow Player",
+    "slug": "gameshow-player",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "gameshowme",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "me.gameshow.player"
+    },
+    "android": {
+      "package": "me.gameshow.player"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permita que o GameShow Player leia o QR Code da sala."
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: #050816;
+  color: white;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.operator-question-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(96, 165, 250, 0.72) rgba(2, 6, 23, 0.75);
+}
+
+.operator-question-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.operator-question-scroll::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.75);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.operator-question-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(96, 165, 250, 0.95), rgba(236, 72, 153, 0.72));
+  border-radius: 999px;
+  border: 2px solid rgba(2, 6, 23, 0.92);
+}
+
+.operator-question-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(147, 197, 253, 1), rgba(244, 114, 182, 0.92));
+}
+
+.tv-soft-screen-entry {
+  min-height: 100vh;
+  animation: tvSoftScreenEntry 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center center;
+}
+
+@keyframes tvSoftScreenEntry {
+  0% {
+    opacity: 0;
+    filter: blur(10px) brightness(0.72);
+    transform: scale(0.985);
+  }
+
+  45% {
+    opacity: 1;
+    filter: blur(2px) brightness(1.04);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
+}
+
+.ceremony-stage-enter {
+  animation: ceremonyStageEnter 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ceremony-particle {
+  position: absolute;
+  width: 4px;
+  height: 14px;
+  border-radius: 999px;
+  opacity: 0;
+  animation-name: ceremonyParticleFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  filter: blur(0.5px);
+}
+
+.ceremony-gold.ceremony-particle {
+  background: linear-gradient(180deg, rgba(254, 240, 138, 0), rgba(250, 204, 21, 0.9), rgba(245, 158, 11, 0));
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.72);
+}
+
+.ceremony-silver.ceremony-particle {
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0), rgba(226, 232, 240, 0.88), rgba(96, 165, 250, 0));
+  box-shadow: 0 0 16px rgba(226, 232, 240, 0.58);
+}
+
+.ceremony-bronze.ceremony-particle {
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0), rgba(251, 146, 60, 0.9), rgba(146, 64, 14, 0));
+  box-shadow: 0 0 16px rgba(251, 146, 60, 0.62);
+}
+
+.ceremony-light-beam {
+  position: absolute;
+  top: -10vh;
+  width: 18vw;
+  height: 120vh;
+  opacity: 0.28;
+  filter: blur(18px);
+  transform-origin: top center;
+  animation: ceremonyBeamSweep 7s ease-in-out infinite alternate;
+}
+
+.ceremony-overhead-light {
+  position: absolute;
+  top: -7vh;
+  height: 72vh;
+  width: 18vw;
+  transform-origin: top center;
+  opacity: 0.34;
+  filter: blur(16px);
+  mix-blend-mode: screen;
+  animation: ceremonyOverheadGlow 4.8s ease-in-out infinite alternate;
+}
+
+.ceremony-overhead-main {
+  left: 50%;
+  width: 24vw;
+  transform: translateX(-50%);
+}
+
+.ceremony-overhead-left {
+  left: 20vw;
+  transform: rotate(20deg);
+  animation-delay: 0.7s;
+}
+
+.ceremony-overhead-right {
+  right: 20vw;
+  transform: rotate(-20deg);
+  animation-delay: 1.2s;
+}
+
+.ceremony-gold.ceremony-overhead-light {
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.76), rgba(250, 204, 21, 0.22) 36%, transparent 78%);
+}
+
+.ceremony-silver.ceremony-overhead-light {
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0.56), rgba(96, 165, 250, 0.18) 38%, transparent 78%);
+}
+
+.ceremony-bronze.ceremony-overhead-light {
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.64), rgba(251, 146, 60, 0.18) 38%, transparent 78%);
+}
+
+.ceremony-spotlight {
+  position: absolute;
+  bottom: -18vh;
+  width: 34vw;
+  height: 72vh;
+  border-radius: 999px 999px 0 0;
+  opacity: 0.28;
+  filter: blur(26px);
+  mix-blend-mode: screen;
+  animation: ceremonySpotlightPulse 5.8s ease-in-out infinite alternate;
+}
+
+.ceremony-spotlight-left {
+  left: 18vw;
+  transform: rotate(-18deg);
+}
+
+.ceremony-spotlight-right {
+  right: 18vw;
+  transform: rotate(18deg);
+  animation-delay: 1.1s;
+}
+
+.ceremony-gold.ceremony-spotlight {
+  background: radial-gradient(ellipse at bottom, rgba(250, 204, 21, 0.48), transparent 64%);
+}
+
+.ceremony-silver.ceremony-spotlight {
+  background: radial-gradient(ellipse at bottom, rgba(226, 232, 240, 0.38), transparent 64%);
+}
+
+.ceremony-bronze.ceremony-spotlight {
+  background: radial-gradient(ellipse at bottom, rgba(251, 146, 60, 0.44), transparent 64%);
+}
+
+.ceremony-light-left {
+  left: 18vw;
+  transform: rotate(18deg);
+}
+
+.ceremony-light-right {
+  right: 18vw;
+  transform: rotate(-18deg);
+  animation-delay: 1.4s;
+}
+
+.ceremony-gold.ceremony-light-beam {
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.42), rgba(250, 204, 21, 0.04));
+}
+
+.ceremony-silver.ceremony-light-beam {
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0.36), rgba(96, 165, 250, 0.04));
+}
+
+.ceremony-bronze.ceremony-light-beam {
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.38), rgba(251, 146, 60, 0.04));
+}
+
+@keyframes ceremonyStageEnter {
+  0% {
+    opacity: 0;
+    filter: blur(12px) brightness(0.7);
+    transform: translateY(22px) scale(0.965);
+  }
+
+  52% {
+    opacity: 1;
+    filter: blur(2px) brightness(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ceremonyParticleFloat {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) rotate(18deg) scale(0.7);
+  }
+
+  35% {
+    opacity: 0.72;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(18px, -80px, 0) rotate(32deg) scale(1.08);
+  }
+}
+
+@keyframes ceremonyBeamSweep {
+  0% {
+    opacity: 0.18;
+    transform: rotate(12deg) translateX(-18px);
+  }
+
+  100% {
+    opacity: 0.34;
+    transform: rotate(22deg) translateX(18px);
+  }
+}
+
+@keyframes ceremonySpotlightPulse {
+  0% {
+    opacity: 0.16;
+    transform: translateY(16px) scaleX(0.92);
+  }
+
+  100% {
+    opacity: 0.34;
+    transform: translateY(0) scaleX(1.06);
+  }
+}
+
+@keyframes ceremonyOverheadGlow {
+  0% {
+    opacity: 0.24;
+    filter: blur(20px);
+  }
+
+  100% {
+    opacity: 0.48;
+    filter: blur(12px);
+  }
+}
