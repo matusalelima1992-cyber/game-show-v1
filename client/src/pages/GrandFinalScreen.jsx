@@ -208,7 +208,7 @@ function RankingAuditModal({ audit, onClose }) {
 
 function AuditItem({ label, value }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.035] px-4 py-3">
+    <div className="px-1 py-2">
       <div className="text-[11px] font-black uppercase tracking-wide text-white/45">{label}</div>
       <div className="mt-1 text-xl font-black text-white">{value}</div>
     </div>
@@ -503,11 +503,11 @@ function FlameIcon({ idSuffix = "main", className = "h-12 w-12" }) {
 function StreakFlameBadge({ side, active }) {
   if (!active) return null;
 
-  const positionClass = side === "men" ? "-right-16 top-1/2 -translate-y-1/2" : "-left-16 top-1/2 -translate-y-1/2";
+  const positionClass = side === "men" ? "-right-3 top-1/2 -translate-y-1/2" : "-left-3 top-1/2 -translate-y-1/2";
 
   return (
-    <div className={`absolute ${positionClass} z-20 flex h-14 w-14 items-center justify-center rounded-full border border-yellow-300/55 bg-black/64 shadow-[0_0_26px_rgba(245,158,11,0.48),inset_0_0_18px_rgba(245,158,11,0.12)]`}>
-      <FlameIcon idSuffix={`streak-${side}`} className="h-11 w-11 drop-shadow-[0_0_12px_rgba(245,158,11,0.9)]" />
+    <div className={`absolute ${positionClass} z-20 flex h-11 w-11 items-center justify-center rounded-full border border-yellow-300/50 bg-black/68 shadow-[0_0_20px_rgba(245,158,11,0.42),inset_0_0_14px_rgba(245,158,11,0.10)]`}>
+      <FlameIcon idSuffix={`streak-${side}`} className="h-8 w-8 drop-shadow-[0_0_10px_rgba(245,158,11,0.85)]" />
     </div>
   );
 }
@@ -726,7 +726,7 @@ export default function GrandFinalScreen({ gameState: providedGameState }) {
         </header>
 
         <section className="grid min-h-0 grid-cols-[0.82fr_1.14fr_1fr] gap-4">
-          <RankingPanel type="blue" title="TOP 3 MAIS R&Aacute;PIDOS" rows={finalFastest} onRowClick={setSelectedAudit} />
+          <RankingPanel type="blue" title="TOP3 DO PLACAR" rows={finalFastest} onRowClick={setSelectedAudit} />
           <ChampionCard champion={champion} score={championScore} />
           <RunnerUpCard runnerUp={runnerUpGroup} />
         </section>
