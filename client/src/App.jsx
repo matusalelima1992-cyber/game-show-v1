@@ -1,7 +1,8 @@
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom";
 
 import PlayerPage from "./pages/PlayerPage";
@@ -22,6 +23,11 @@ export default function App() {
       <BrowserRouter>
 
         <Routes>
+
+        <Route
+          path="/"
+          element={<Navigate to="/tv" replace />}
+        />
 
         <Route
           path="/operator"
