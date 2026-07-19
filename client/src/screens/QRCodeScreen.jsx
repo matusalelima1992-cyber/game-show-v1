@@ -4,12 +4,11 @@ import useGameState from "../hooks/useGameState";
 import { QRCodeSVG } from "qrcode.react";
 
 const QR_MODE_STORAGE_KEY = "gameShowMe.qrMode";
+const TEST_WEB_PLAYER_URL = "https://game-show-v1.vercel.app";
 
 function getJoinUrl(roomCode, network) {
   if (!roomCode) return "";
-  const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-  const baseUrl = isLocalhost && network?.clientUrl ? network.clientUrl : window.location.origin;
-  return `${baseUrl}/player?room=${encodeURIComponent(roomCode)}`;
+  return `${TEST_WEB_PLAYER_URL}/player?room=${encodeURIComponent(roomCode)}`;
 }
 
 function getAppJoinUrl(roomCode, network) {
