@@ -1,31 +1,12 @@
-import { useState } from "react";
 import OfficialLogo from "../components/OfficialLogo";
 import useGameState from "../hooks/useGameState";
 import { QRCodeSVG } from "qrcode.react";
-
-const QR_MODE_STORAGE_KEY = "gameShowMe.qrMode";
-const HTTPS_TEST_PLAYER_URL = "https://game-show-v1.vercel.app";
 
 function getLocalJoinUrl(roomCode, network) {
   if (!roomCode) return "";
   const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
   const baseUrl = isLocalhost && network?.clientUrl ? network.clientUrl : window.location.origin;
   return `${baseUrl}/player?room=${encodeURIComponent(roomCode)}`;
-}
-
-function getHttpsJoinUrl(roomCode) {
-  if (!roomCode) return "";
-  return `${HTTPS_TEST_PLAYER_URL}/player?room=${encodeURIComponent(roomCode)}`;
-}
-
-function getAppJoinUrl(roomCode, network) {
-  if (!roomCode) return "";
-  const fallbackHost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? "localhost"
-    : window.location.hostname;
-  const host = network?.host || fallbackHost;
-  const port = network?.serverPort || 3001;
-  return `gameshowme://join?host=${encodeURIComponent(host)}&port=${encodeURIComponent(port)}&room=${encodeURIComponent(roomCode)}`;
 }
 
 function NeonIcon({ type, color = "pink" }) {
@@ -64,26 +45,14 @@ function NeonChevrons({ direction = "right", color = "pink" }) {
 }
 
 export default function QRCodeScreen({ gameState: providedGameState }) {
-  const [qrMode, setQrMode] = useState(() => {
-    const savedMode = window.localStorage.getItem(QR_MODE_STORAGE_KEY);
-    return savedMode === "https" ? "https" : "local";
-  });
   const liveGameState = useGameState();
   const gameState = providedGameState || liveGameState;
   const event = gameState.activeEvent;
   const roomCode = event?.roomCode || "------";
   const connectedCount = gameState.participants?.total || 0;
   const participantStatus = connectedCount > 0 ? "Participantes conectados" : "Aguardando participantes";
-  const localJoinUrl = getLocalJoinUrl(event?.roomCode, gameState.network);
-  const httpsJoinUrl = getHttpsJoinUrl(event?.roomCode);
-  const joinUrl = qrMode === "https" ? httpsJoinUrl : localJoinUrl;
+  const joinUrl = getLocalJoinUrl(event?.roomCode, gameState.network);
   const qrValue = joinUrl;
-  const qrModeLabel = qrMode === "https" ? "HTTPS Teste" : "Local";
-
-  function changeQrMode(nextMode) {
-    setQrMode(nextMode);
-    window.localStorage.setItem(QR_MODE_STORAGE_KEY, nextMode);
-  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#02050f] p-3 text-white">
@@ -126,25 +95,6 @@ export default function QRCodeScreen({ gameState: providedGameState }) {
             <div className="mb-3 max-w-full rounded-full border border-white/12 bg-black/35 px-6 py-2 text-center text-lg font-black uppercase tracking-wide text-white/86">
               {event?.name || "Aguardando evento"}
             </div>
-            <div className="mb-3 flex items-center overflow-hidden rounded-full border border-white/12 bg-black/38 p-1 text-[11px] font-black uppercase tracking-wide">
-              {[
-                ["local", "Local"],
-                ["https", "HTTPS"]
-              ].map(([mode, label]) => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => changeQrMode(mode)}
-                  className={`rounded-full px-4 py-2 transition ${
-                    qrMode === mode
-                      ? "bg-blue-500 text-white shadow-[0_0_18px_rgba(59,130,246,0.35)]"
-                      : "text-white/52"
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
 
             <div className="flex aspect-square h-[min(52vh,430px)] min-h-[330px] items-center justify-center rounded-2xl border border-blue-300/80 bg-white p-4 shadow-[0_0_36px_rgba(59,130,246,0.55),0_0_42px_rgba(236,72,153,0.28)]">
               {event?.roomCode ? (
@@ -164,12 +114,8 @@ export default function QRCodeScreen({ gameState: providedGameState }) {
             </div>
 
             <div className="mt-3 text-center">
-              <div className="text-sm font-black uppercase tracking-wide text-white/78">Modo do QR: {qrModeLabel}</div>
               <div className="mt-1 rounded-xl border border-blue-400/40 bg-blue-950/44 px-10 py-2 text-[38px] font-black uppercase tracking-[0.22em] text-blue-300 shadow-[0_0_28px_rgba(59,130,246,0.25)]">
                 {roomCode}
-              </div>
-              <div className="mt-2 max-w-[52vh] break-all text-base font-bold text-white/75">
-                {joinUrl}
               </div>
             </div>
           </div>
@@ -182,9 +128,6 @@ export default function QRCodeScreen({ gameState: providedGameState }) {
               <NeonIcon type="keyboard" color="blue" />
               <div className="mt-4 text-center text-xl font-black uppercase leading-snug text-white">
                 Ou digite o<br />codigo da sala
-              </div>
-              <div className="mt-2 break-all text-center text-base font-bold text-blue-300">
-                {event?.roomCode ? joinUrl : "Aguardando sala"}
               </div>
             </div>
           </div>
