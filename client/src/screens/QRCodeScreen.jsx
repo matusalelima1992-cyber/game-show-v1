@@ -4,11 +4,18 @@ import useGameState from "../hooks/useGameState";
 import { QRCodeSVG } from "qrcode.react";
 
 const QR_MODE_STORAGE_KEY = "gameShowMe.qrMode";
-const TEST_WEB_PLAYER_URL = "https://game-show-v1.vercel.app";
+const HTTPS_TEST_PLAYER_URL = "https://game-show-v1.vercel.app";
 
-function getJoinUrl(roomCode, network) {
+function getLocalJoinUrl(roomCode, network) {
   if (!roomCode) return "";
-  return `${TEST_WEB_PLAYER_URL}/player?room=${encodeURIComponent(roomCode)}`;
+  const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  const baseUrl = isLocalhost && network?.clientUrl ? network.clientUrl : window.location.origin;
+  return `${baseUrl}/player?room=${encodeURIComponent(roomCode)}`;
+}
+
+function getHttpsJoinUrl(roomCode) {
+  if (!roomCode) return "";
+  return `${HTTPS_TEST_PLAYER_URL}/player?room=${encodeURIComponent(roomCode)}`;
 }
 
 function getAppJoinUrl(roomCode, network) {
@@ -57,17 +64,21 @@ function NeonChevrons({ direction = "right", color = "pink" }) {
 }
 
 export default function QRCodeScreen({ gameState: providedGameState }) {
-  const [qrMode, setQrMode] = useState(() => window.localStorage.getItem(QR_MODE_STORAGE_KEY) || "app");
+  const [qrMode, setQrMode] = useState(() => {
+    const savedMode = window.localStorage.getItem(QR_MODE_STORAGE_KEY);
+    return savedMode === "https" ? "https" : "local";
+  });
   const liveGameState = useGameState();
   const gameState = providedGameState || liveGameState;
   const event = gameState.activeEvent;
   const roomCode = event?.roomCode || "------";
   const connectedCount = gameState.participants?.total || 0;
   const participantStatus = connectedCount > 0 ? "Participantes conectados" : "Aguardando participantes";
-  const joinUrl = getJoinUrl(event?.roomCode, gameState.network);
-  const appJoinUrl = getAppJoinUrl(event?.roomCode, gameState.network);
-  const qrValue = qrMode === "web" ? joinUrl : appJoinUrl;
-  const qrModeLabel = qrMode === "web" ? "Navegador" : "Aplicativo";
+  const localJoinUrl = getLocalJoinUrl(event?.roomCode, gameState.network);
+  const httpsJoinUrl = getHttpsJoinUrl(event?.roomCode);
+  const joinUrl = qrMode === "https" ? httpsJoinUrl : localJoinUrl;
+  const qrValue = joinUrl;
+  const qrModeLabel = qrMode === "https" ? "HTTPS Teste" : "Local";
 
   function changeQrMode(nextMode) {
     setQrMode(nextMode);
@@ -117,8 +128,8 @@ export default function QRCodeScreen({ gameState: providedGameState }) {
             </div>
             <div className="mb-3 flex items-center overflow-hidden rounded-full border border-white/12 bg-black/38 p-1 text-[11px] font-black uppercase tracking-wide">
               {[
-                ["app", "Aplicativo"],
-                ["web", "Navegador"]
+                ["local", "Local"],
+                ["https", "HTTPS"]
               ].map(([mode, label]) => (
                 <button
                   key={mode}
@@ -158,7 +169,7 @@ export default function QRCodeScreen({ gameState: providedGameState }) {
                 {roomCode}
               </div>
               <div className="mt-2 max-w-[52vh] break-all text-base font-bold text-white/75">
-                {qrMode === "web" ? joinUrl : "Fallback navegador: " + joinUrl}
+                {joinUrl}
               </div>
             </div>
           </div>
